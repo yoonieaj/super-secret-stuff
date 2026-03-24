@@ -1,8 +1,99 @@
+body {
+    padding: 40px;
+}
+
+h3 {
+    color: #763232;
+    font-size: 18px;
+}
 
 body {
-	padding: 40px;
+    font-size: 12px;
 }
 
 p {
-    color: #687632;
+    font-size: 14px;
+}
+
+.row-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.button-container {
+    border-left: 1px solid #cccccc
+}
+
+.button {
+    width: 160px;
+    height: 24px;
+    margin-left: 15px;
+    /* margin-right: 10px; */
+    margin-bottom: 18px;
+    border-radius: 32px;
+    position: relative;
+}
+
+.button span {
+    pointer-events: none;
+}
+
+.button.disabled {
+    /* background-color: #e7e7e7 !important; */
+    border: none !important;
+    opacity: 0.7 !important;
+    /* color: #9a9a9a !important; */
+}
+
+.button-close {
+    position: absolute;
+    left: 140px;
+    top: 1px;
+}
+
+.button-close.disabled {
+    display: none;
+}
+
+.button-text {
+    margin-right: 10px
+}
+
+#selectedRestaurants-button {
+    background-color: #c3d0ea;
+    border: 2px solid #7a98d2;
+    color: #384a6d;
+}
+
+#bibGourmand-button {
+    background-color: #77bbbb71;
+    border: 2px solid #77bbbb;
+    color: #265a5a;
+}
+
+#oneStar-button {
+    background-color: #f6dbb884;
+    border: 2px solid #efc691;
+    color: #664314
+}
+
+#twoStar-button {
+    background-color: #faa16d78;
+    border: 2px solid #faa16d;
+    color: #943e0c;
+}
+
+#threeStar-button {
+    background-color: #f33b3b71;
+    border: 2px solid #f33b3b;
+    color: #670404
+}
+
+.country-label {
+    text-anchor: end;
+}
+
+#chart-area {
+    margin-left: -50px;
 }
