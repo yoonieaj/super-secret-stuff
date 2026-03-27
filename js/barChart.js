@@ -49,9 +49,6 @@ class BarChart {
 
         // add the event listeners for the checkboxes
         AWARDCLASSES.forEach((award) => {
-            d3.select('#' + award).on("change", function (event, d) {
-                updateSelection(event, vis)
-            })
             d3.select('#' + award + '-button').on("click", function (event, d) {
                 onFilterClick(event, vis)
             })
@@ -362,17 +359,6 @@ class BarChart {
     }
 
 };
-
-updateSelection = function (event, vis) {
-    if (event.target.checked) {
-        vis.includedAwards.add(event.target.name)
-    }
-    else { // false
-        vis.includedAwards.delete(event.target.name)
-    }
-
-    vis.dataOrder(true)
-}
 
 onFilterClick = function (event, vis) {
     console.log("clicked", event)
