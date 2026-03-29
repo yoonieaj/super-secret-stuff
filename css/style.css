@@ -1,3 +1,5 @@
+/* text stuff */
+
 body {
     padding: 40px;
 }
@@ -9,11 +11,18 @@ h3 {
 
 body {
     font-size: 12px;
+    position: relative
 }
 
 p {
     font-size: 14px;
 }
+
+.country-label {
+    text-anchor: end;
+}
+
+/* container things */
 
 .row-container {
     display: flex;
@@ -25,13 +34,54 @@ p {
     border-left: 1px solid #cccccc
 }
 
+#chart-area {
+    margin-left: -40px;
+}
+
+#country-tooltip {
+    position: absolute;
+    background-color: white;
+    border: 2px solid #763232;
+    border-radius: 4px;
+    width: 250px;
+    height: 360px;
+    padding: 10px;
+}
+
+#country-tooltip p {
+    font-size: 12px;
+}
+
+.outline-container {
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    margin-bottom: 50px;
+}
+
+#tooltip-triangle {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    /* z-index: ; */
+    background-color: #763232;
+    transform: rotate(45deg) translateY(25%) translateX(-40%) skew(170deg, 170deg);
+}
+
+/* .tooltip-text-container {
+    padding: 10px;
+} */
+
+/* the button classes */
+
 .button {
     width: 160px;
     height: 24px;
-    margin-left: 15px;
-    /* margin-right: 10px; */
+    margin-left: 14px;
     margin-bottom: 18px;
     border-radius: 32px;
+    margin-top: 10px;
     position: relative;
 }
 
@@ -61,39 +111,38 @@ p {
 }
 
 #selectedRestaurants-button {
-    background-color: #c3d0ea;
-    border: 2px solid #7a98d2;
-    color: #384a6d;
+    background-color: #70a5b080;
+    border: 2px solid #70a5b0;
+    color: #20464e;
 }
 
 #bibGourmand-button {
-    background-color: #77bbbb71;
-    border: 2px solid #77bbbb;
-    color: #265a5a;
+    background-color: #8ecac071;
+    border: 2px solid #8ecac0;
+    color: #1b544b;
 }
 
 #oneStar-button {
-    background-color: #f6dbb884;
-    border: 2px solid #efc691;
-    color: #664314
+    background-color: #f3cf9184;
+    border: 2px solid #f3cf91;
+    color: #6a4910
 }
 
 #twoStar-button {
-    background-color: #faa16d78;
-    border: 2px solid #faa16d;
-    color: #943e0c;
+    background-color: #f4838378;
+    border: 2px solid #f48383;
+    color: #811313;
 }
 
 #threeStar-button {
-    background-color: #f33b3b71;
-    border: 2px solid #f33b3b;
+    background-color: #cd4a7371;
+    border: 2px solid #cd4a73;
     color: #670404
 }
 
-.country-label {
-    text-anchor: end;
-}
 
-#chart-area {
-    margin-left: -50px;
+/* chart stuff */
+
+.country-label:hover {
+    cursor: default;
 }
