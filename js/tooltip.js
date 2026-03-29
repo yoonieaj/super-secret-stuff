@@ -126,8 +126,12 @@ class Tooltip {
             .html(`<div>
                     <div class="tooltip-text-container">
                         <p>top regional keywords: </p>
-                        <span>${countryTotal.length > 0 ? countryTotal[0].cuisine : ''}</span><span>${countryTotal.length > 1 ? ', ' + countryTotal[1].cuisine: ''}</span><span>${countryTotal.length > 2 ? ', ' + countryTotal[2].cuisine: ''}</span><span>${countryTotal.length > 3 ? ', ' + countryTotal[3].cuisine : ''}</span>
-                        
+                        <span>${countryTotal.length > 0 ? countryTotal[0].cuisine : ''}</span>
+                        <span>${countryTotal.length > 0 ? '(' + countryTotal[0].count + ')' : ''}</span><span>${countryTotal.length > 1 ? ', ' + countryTotal[1].cuisine: ''}</span>
+
+                        <span>${countryTotal.length > 1 ? '(' + countryTotal[1].count + ')' : ''}</span><span>${countryTotal.length > 2 ? ', ' + countryTotal[2].cuisine: ''}</span>
+                        <span>${countryTotal.length > 2 ? '(' + countryTotal[2].count + ')' : ''}</span><span>${countryTotal.length > 3 ? ', ' + countryTotal[3].cuisine : ''}</span>
+                        <span>${countryTotal.length > 3 ? '(' + countryTotal[3].count + ')' : ''}</span>
                     </div>
                 </div>`)
 
