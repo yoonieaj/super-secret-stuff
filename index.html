@@ -10,18 +10,21 @@
 </head>
 
 <body id="body">
-    <h1>catchy title</h1>
+    <h1>A closer look at the Michelin Guide</h1>
     <!-- <div class="row button-container"> -->
-        <h3>What is the Michelin Guide?</h3>
+    <h3>What is the Michelin Guide?</h3>
     <p>
         The Michelin Guide's restaurant awards are considered among the most
         prestigious in the industry. It currently recognises restaurants in 52
-        countries (as of [RECENT DATA]) and continues to expand.
-        According to Michelin [add link here to source], the guide aims to "cover restaurants
-        across the globe" and does not have a preference for formal, expensive restaurants or specific cuisines.
+        countries (as of 2026) and continues to expand.
+        According to Michelin, the guide aims to "cover restaurants
+        across the globe" and does not have a preference for formal,
+         expensive restaurants or specific cuisines
+            <a href="https://guide.michelin.com/ca/en/article/features/what-is-a-michelin-star">(Source)</a>.
         But does the data support these claims?
     </p>
     <h3>Michelin recommended restaurants, by country</h3>
+    <p>Try hovering over different countries to see information about price and common cuisine genres!</p>
     </div>
     <div class="outline-container">
         <div class="row">
@@ -58,8 +61,43 @@
                 <div id="chart-area"></div>
             </div>
             <div class="col-2"></div>
-
         </div>
+    </div>
+    <div>
+        <h3>What do these awards mean?</h3>
+        <p>
+            One, Two, and Three star awards are the most prestigious, 
+            with more stars being better.
+            While Michelin's stance is that a restaurant does not need to be formal or expensive
+            to receive a star, the price breakdowns for starred restaurants suggest a different story.
+        </p>
+        <p>
+            The Bib Gourmand award is described as "a special distinction recognizing restaurants 
+            that serve high-quality food at great value"
+            <a href="https://guide.michelin.com/en/article/features/the-bib-gourmand">(source)</a>.
+            This award is reserved for restaurants
+            where the food is not expensive. Try taking a look at the price breakdowns for these
+            restaurants!
+        </p>
+        <p>
+            Selected restaurants are restaurants where "the inspectors have found the food to be 
+            above average, but not quite at star or Bib level"
+            <a href="https://guide.michelin.com/en/article/features/what-it-means-listed-Michelin-guide">
+                (source)</a>.
+        </p>
+        <h3>What are "Regional keywords"?</h3>
+        <p>
+            Michelin tracks the cuisine style of each restaurant that receives an award.
+            Some of these cuisines contain keywords correspond to regional cooking styles (e.g.,
+            Classic <b>French</b>, <b>Japanese</b> Contemporary),
+            while others do not (e.g., Seafood, Modern Cuisine).
+            The top regional keywords of a country's awarded restaurants are the most common
+            regional keywords that appear in its awarded restaurants' cuisine categories.
+        </p>
+        <h3>Sources</h3>
+        <p>Data is from this
+            <a href="https://www.kaggle.com/datasets/ngshiheng/michelin-guide-restaurants-2021">Kaggle dataset</a>.
+        </p>
     </div>
 
 
@@ -74,6 +112,7 @@
     <script src="js/main.js"></script>
     <!-- <script src="js/ring.js"></script> -->
     <script src="js/barChart.js"></script>
+    <script src="js/tooltip.js"></script>
     <script src="js/ringChart.js"></script>
 </body>
 

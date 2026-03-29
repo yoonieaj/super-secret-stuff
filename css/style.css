@@ -41,7 +41,11 @@ p {
 #country-tooltip {
     position: absolute;
     background-color: white;
-    border: 2px solid black;
+    border: 2px solid #763232;
+    border-radius: 4px;
+    width: 250px;
+    height: 360px;
+    padding: 10px;
 }
 
 #country-tooltip p {
@@ -53,7 +57,21 @@ p {
     border-radius: 8px;
     padding-bottom: 10px;
     padding-left: 10px;
+    margin-bottom: 50px;
 }
+
+#tooltip-triangle {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    /* z-index: ; */
+    background-color: #763232;
+    transform: rotate(45deg) translateY(25%) translateX(-40%) skew(170deg, 170deg);
+}
+
+/* .tooltip-text-container {
+    padding: 10px;
+} */
 
 /* the button classes */
 
@@ -120,4 +138,11 @@ p {
     background-color: #cd4a7371;
     border: 2px solid #cd4a73;
     color: #670404
+}
+
+
+/* chart stuff */
+
+.country-label:hover {
+    cursor: default;
 }

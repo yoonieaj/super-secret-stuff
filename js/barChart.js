@@ -1,6 +1,6 @@
 // todo: make these not constants anymore
 const WIDTH = 900;
-const HEIGHT = 600;
+const HEIGHT = 900;
 const AWARDCLASSES = [
     'selectedRestaurants',
     'bibGourmand',
@@ -20,8 +20,6 @@ class BarChart {
 
     // constructor
     constructor(parentElement, data) {
-        console.log("treemapping")
-        console.log(data)
         // initialize attributes
         this.parentElement = parentElement;
         this.rawData = data;
@@ -44,7 +42,7 @@ class BarChart {
         vis.barPaddingY = 20;
         vis.width = WIDTH - vis.margin.left - vis.margin.right;
         vis.height = HEIGHT - vis.margin.top - vis.margin.bottom;
-        vis.tooltipHeight = 250;
+        vis.tooltipHeight = 350;
         vis.transitionDuration = 1000
 
         // add the event listeners for the checkboxes
@@ -58,6 +56,7 @@ class BarChart {
         // TODO: maybe make the width and height of these dynamic and depend
         // on viewport width/height whatever
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
+            .attr("id", "main-svg")
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
 
@@ -66,18 +65,18 @@ class BarChart {
             .attr("class", "x-axis")
             .attr("transform", `translate(${vis.barPadding}, ${vis.barPaddingY})`)
 
-        vis.tooltip = d3.select("body").append("div")
-            .attr("id", "country-tooltip")
-            .style("opacity", 0)
+        // vis.tooltip = d3.select("body").append("div")
+        //     .attr("id", "country-tooltip")
+        //     .style("opacity", 0)
+
+        vis.tooltipContent = new Tooltip('body', vis.rawData)
 
         vis.wrangleData();
     }
 
     wrangleData() {
         let vis = this;
-        console.log("wrangling data");
         // we are going to update the vis.displayData values
-        console.log("start:", vis.rawData);
         vis.displayData = vis.rawData;      // cause to be honest i cleaned this the way i wanted already
         vis.countryStats = {};
         vis.rawData.forEach((d, i) => {
@@ -85,7 +84,6 @@ class BarChart {
             let stars = d.Stars
 
             if (prevVal === undefined) {
-                console.log("undefined, initialising")
                 // initialise
                 vis.countryStats[d.Country] = {
                     selectedRestaurants: 0,
@@ -100,7 +98,6 @@ class BarChart {
             vis.countryStats[d.Country].total += 1;
             vis.countryStats[d.Country][stars] += 1;
         })
-        console.log("countrystats", vis.countryStats)
 
         // something something by country
         vis.countryTotalArray = Object.keys(vis.countryStats).map((key) => {
@@ -120,7 +117,6 @@ class BarChart {
 
     dataOrder(isUpdate) {
         let vis = this;
-        // console.log("sorginggs")
         vis.countryTotalArray.sort((a, b) => {
             let sumA = 0
             let sumB = 0
@@ -131,7 +127,7 @@ class BarChart {
             return sumB - sumA
         })
 
-        const cutoff = 33       // anything after 33rd entry will be labelled as "other" initially
+        const cutoff = 100       // anything after 33rd entry will be labelled as "other" initially
         vis.countryFilteredArray = vis.countryTotalArray.slice(0, cutoff)
         const others = vis.countryTotalArray.slice(cutoff)
         let otherSelected = 0
@@ -146,17 +142,15 @@ class BarChart {
             otherTwoStar += rest.twoStar;
             otherThreeStar += rest.threeStar;
         })
-        vis.countryFilteredArray.push({
-            country: 'Other',
-            bibGourmand: otherBG,
-            oneStar: otherOneStar,
-            selectedRestaurants: otherSelected,
-            threeStar: otherThreeStar,
-            twoStar: otherTwoStar,
-            total: otherSelected + otherOneStar + otherBG + otherThreeStar + otherTwoStar
-        })
-
-        console.log("countrifulterdary", vis.countryFilteredArray)
+        // vis.countryFilteredArray.push({
+        //     country: 'Other',
+        //     bibGourmand: otherBG,
+        //     oneStar: otherOneStar,
+        //     selectedRestaurants: otherSelected,
+        //     threeStar: otherThreeStar,
+        //     twoStar: otherTwoStar,
+        //     total: otherSelected + otherOneStar + otherBG + otherThreeStar + otherTwoStar
+        // })
 
         vis.updateVis(isUpdate);
     }
@@ -175,7 +169,6 @@ class BarChart {
             .domain([0, maxRestaurants])
             .range([0, WIDTH - vis.barPadding - 10]);
 
-        console.log("vis height", vis.height)
         vis.y = d3.scaleBand()
             .range([0, vis.height])
             .domain(vis.countryFilteredArray.map(d => d.country))
@@ -193,8 +186,6 @@ class BarChart {
             .scale(vis.x)
             .ticks(4);
 
-        console.log("xaxis", vis.xAxis)
-
         let xAxis = d3.selectAll(".x-axis")
         xAxis.enter()
             .merge(xAxis)
@@ -205,22 +196,20 @@ class BarChart {
         let stackGroups = vis.svg.selectAll(".bar-group")
             .data(stackedData)
 
-        console.log("stacked data", stackedData)
-
 
         let bars = stackGroups.enter().append("g")
             .attr("class", "bar-group")
             .merge(stackGroups)
-            .attr("fill", function (d) { console.log("color", d.key); return COLORSCHEME[d.key]; })
+            .attr("fill", function (d) { return COLORSCHEME[d.key]; })
 
-            .selectAll("rect")
+            .selectAll(".bar")
             .data(function (d) {
-                // console.log("function d", d) 
                 return d;
             })
 
         bars.enter()
             .append("rect")
+            .attr("class", "bar")
             .attr("fill", function (d) {
                 return COLORSCHEME[d.key];
             })
@@ -229,7 +218,7 @@ class BarChart {
             })
             .on('mouseover', function (event, x) {
                 // highlight selected bar
-                d3.selectAll("rect")
+                d3.selectAll(".bar")
                     .style("opacity", function (d) {
                         if (d.data.country === x.data.country) {
                             return 1
@@ -253,10 +242,10 @@ class BarChart {
                     })
 
                 // appear the tooltip
-                vis.countryTooltip(event, x, vis)
+                vis.countryTooltip(event, x.data, vis)
             })
             .on('mouseout', function (event, x) {
-                d3.selectAll("rect")
+                d3.selectAll(".bar")
                     .style("opacity", 1)
                 d3.selectAll(".country-label")
                     .style("opacity", function (d) {
@@ -269,11 +258,11 @@ class BarChart {
                             return 0;
                         }
                     })
-                vis.tooltip
-                    .style("opacity", 0)
-                    .style("left", 0)
-                    .style("top", 0)
-                    .html(``);
+                vis.tooltipContent.hide()
+                // vis.tooltip
+                //     .style("opacity", 0)
+                //     .style("left", 0)
+                //     .style("top", 0)
             })
 
             .merge(bars)
@@ -306,6 +295,53 @@ class BarChart {
             .attr("id", d => d.country + "-label")
             .attr("y", vis.height)
             .attr("x", vis.barPadding - 10)
+            .on('mouseover', function (event, x) {
+                if (d3.select(this).style("opacity") == 0) {
+                    return;
+                }
+                // highlight selected bar
+                d3.selectAll(".bar")
+                    .style("opacity", function (d) {
+                        if (d.data.country === x.country) {
+                            return 1
+                        }
+                        return 0.25
+                    })
+                d3.selectAll(".country-label")
+                    .style("opacity", function (d) {
+                        if (d.country === x.country) {
+                            return 1
+
+                        }
+
+                        for (const award of vis.includedAwards) {
+                            if (d[award] > 0) {
+                                return 0.25
+                            }
+                        }
+                        return 0;
+
+                    })
+
+                // appear the tooltip
+                vis.countryTooltip(event, x, vis)
+            })
+            .on('mouseout', function (event, x) {
+                d3.selectAll(".bar")
+                    .style("opacity", 1)
+                d3.selectAll(".country-label")
+                    .style("opacity", function (d) {
+                        {
+                            for (const award of vis.includedAwards) {
+                                if (d[award] > 0) {
+                                    return 1
+                                }
+                            }
+                            return 0;
+                        }
+                    })
+                vis.tooltipContent.hide()
+            })
             .merge(labels)
             .transition()
             .duration(isUpdate ? vis.transitionDuration : 0)
@@ -319,53 +355,36 @@ class BarChart {
                 }
                 return 0;
             })
+            
+
         labels.exit().remove()
     }
 
     countryTooltip(event, x, vis) {
-        let yCoord = event.pageY - 10;
         let bodyRect = document.getElementById('body').getBoundingClientRect()
-        yCoord = Math.min(yCoord, bodyRect.height - vis.tooltipHeight)
-
-        let countryData = vis.countryFilteredArray.filter((d) => d.country === x.data.country)[0]
-        console.log("countrydata", countryData)
-        // let maxRestaurants = d3.max(vis.countryFilteredArray, (d) => {
+        let countryData = vis.countryFilteredArray.filter((d) => d.country === x.country)[0]
         let sum = 0
+
         for (const award of vis.includedAwards) {
             sum += countryData[award];
         }
-        console.log(sum)
-        // })
-        // let xCoord = vis.x()
-        vis.tooltip
-            .style("opacity", 1)
-            .style("left", vis.x(sum) + 200 + "px")
-            .style("top", yCoord + "px")
-            .html(`
-                    <div>
-                        <h3>${x.data.country} (${sum} restaurants)</h3>
-                        <div class="row-container">
-                        <div>
-                            <p>${x.data.selectedRestaurants} selected restaurants</p>
-                            <p>${x.data.bibGourmand} bib gourmand</p>
-                            <p>${x.data.oneStar} one star</p>
-                            <p>${x.data.twoStar} two star</p>
-                            <p>${x.data.threeStar} three star</p>
-                        </div>
-                        <div>akdfhaoiduf</div>
-                        </div>
 
-                    </div>`);
+        let xCoord = vis.x(sum) + 200
+
+        var svgRect = document.getElementById('chart-area').getBoundingClientRect();
+
+        let triangleY = vis.y(x.country) + svgRect.top + window.scrollY + 20
+        let tooltipY = Math.min(triangleY - 20, svgRect.top + svgRect.height + window.scrollY - vis.tooltipHeight)
+
+        vis.tooltipContent.show(xCoord, tooltipY, x.country, vis.includedAwards, triangleY, sum)
     }
 
 };
 
 onFilterClick = function (event, vis) {
-    console.log("clicked", event)
 
     if (vis.includedAwards.has(event.target.name)) {
         event.target.className += " disabled"
-        console.log("child", event.target.querySelector('.button-close'))
         event.target.querySelector('.button-close').className = "button-close disabled"
         vis.includedAwards.delete(event.target.name)
     }
